@@ -1,11 +1,15 @@
-# Use root/example as user/password credentials
 version: '3.1'
 
 services:
 
   db:
     image: mysql
+    container_name: Animal_container
+    platform: linux/amd64
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example
-    # (this is just an example, not intended to be a production configuration)
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
