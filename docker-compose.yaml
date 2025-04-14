@@ -1,15 +1,20 @@
-version: '3.1'
+version: '3.8'
 
 services:
-
-  db:
-    image: mysql
-    container_name: Animal_container
-    platform: linux/amd64
+  mysql:
+    image: mysql:8.0
+    platform: linux/arm64
+    container_name: mysql_local
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: minha_base
+      MYSQL_USER: meu_user
+      MYSQL_PASSWORD: minha_senha
     ports:
       - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
