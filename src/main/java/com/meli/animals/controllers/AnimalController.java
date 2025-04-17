@@ -14,8 +14,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AnimalController {
 
-    // controller -> service -> repository -> banco de dados <- repository <- service <- controller
-
     private final AnimalService service;
 
     @GetMapping("/animais")
@@ -62,33 +60,9 @@ public class AnimalController {
         return ResponseEntity.noContent().build();
     }
 
+    //    @GetMapping("/animais/raca/{raca}")
+//    public ResponseEntity<List<Animal>> findByRaca (@PathVariable String raca){
+//        return ResponseEntity.ok(service.findByRaca(raca));
+//    }
+
 }
-
-/**
- * Etapas:
- *  criar model na pasta model para representar o modelo salvo no banco de dados
- *  criar repository extendendo JpaRepository para comunicar com o banco
- *  criar service (camada logica) para chamar a repository e salvar o animal
- *  criar controller para criar as rotas e chamar as services
- */
-
-
-//Desafio parte 1
-/** ✅
- * Desafio: está faltando uma annotation (@) dentro dos parâmetros do salvarAnimal,
- * para representar que o Animal vai vir no payload (json)
- * Pesquisar qual annotation representa o ***Request Body*** no spring
- * */
-
-
-//Desafio parte 2:
-/** ✅
- * terminal de implementar encontrarAnimalPorId (utilizar findById() do jpa repository)
- * fazer o deletarAnimal
- * */
-
-//Desafio parte 3:
-/** ✅
- *  - fazer encontrar Lista de animais por cor
- *  - fazer encontrar lista de animais por raça (colocar raça na model)
- * */

@@ -2,6 +2,7 @@ package com.meli.animals.services;
 
 import com.meli.animals.entities.Animal;
 import com.meli.animals.repositories.AnimalRepository;
+import com.meli.animals.services.AnimalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +26,22 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public Optional<Animal> findById(Long id) { return repository.findById(id); }
+    public Optional<Animal> findById(Long id) {
+        return repository.findById(id);
+    }
 
     @Override
-    public List<Animal> findByCor(String cor) { return repository.findByCor(cor); }
+    public List<Animal> findByCor(String cor) {
+        return repository.findByCor(cor);
+    }
 
     @Override
-    public List<Animal> findByRaca(String raca) { return repository.findByRaca(raca); }
+    public List<Animal> findByRaca(String raca) {
+        return repository.findByRaca(raca);
+    }
 
     @Override
-    public void deletarAnimal(Long id) { repository.deleteById(id); }
+    public void deletarAnimal(Long id) {
+        repository.deleteById(id);
+    }
 }

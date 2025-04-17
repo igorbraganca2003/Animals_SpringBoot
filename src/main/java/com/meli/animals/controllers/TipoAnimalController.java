@@ -25,7 +25,7 @@ public class TipoAnimalController {
         return ResponseEntity.ok(tipos);
     }
 
-    @GetMapping("/TipoAnimal/id/{id}")
+    @GetMapping("/TipoAnimal/{id}")
     public ResponseEntity<TipoAnimal> encontrarPorId(@PathVariable Long id) {
         Optional<TipoAnimal> tipo = service.encontrarPorId(id);
         return tipo.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
