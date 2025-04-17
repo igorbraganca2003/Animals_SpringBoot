@@ -1,10 +1,10 @@
 package com.meli.animals.controllers;
 
+import org.springframework.stereotype.Controller;
 import com.meli.animals.entities.Animal;
 import com.meli.animals.services.AnimalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
