@@ -66,17 +66,32 @@ public class AnimalController {
         return ResponseEntity.ok(animais);
     }
 
+//    @PostMapping
+//    public ResponseEntity<Animal> salvarAnimal(@RequestBody Animal animal) {
+//        logger.info("Tentando salvar o animal: {}", animal);
+//
+//        String nome = animal.getNome();
+//        if (nome != null && !nome.trim().isEmpty()) {
+//            Optional<Animal> animalExistente = animalRepository.findByNome(nome);
+//            if (animalExistente.isPresent()) {
+//                logger.warn("Animal com o nome '{}' já existe.", nome);
+//                throw new AnimalNomeDuplicadoException(nome);
+//            }
+//        }
+//
+//        Animal animalSalvo = service.save(animal);
+//        logger.info("Animal salvo com sucesso: {}", animalSalvo);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(animalSalvo);
+//    }
+
     @PostMapping
     public ResponseEntity<Animal> salvarAnimal(@RequestBody Animal animal) {
         logger.info("Tentando salvar o animal: {}", animal);
 
         String nome = animal.getNome();
-        if (nome != null && !nome.trim().isEmpty()) {
-            Optional<Animal> animalExistente = animalRepository.findByNome(nome);
-            if (animalExistente.isPresent()) {
-                logger.warn("Animal com o nome '{}' já existe.", nome);
-                throw new AnimalNomeDuplicadoException(nome);
-            }
+        if (nome != null && !nome.trim().isEmpty() && service.existsByNome(nome)) {
+            logger.warn("Animal com o nome '{}' já existe.", nome);
+            throw new AnimalNomeDuplicadoException(nome);
         }
 
         Animal animalSalvo = service.save(animal);

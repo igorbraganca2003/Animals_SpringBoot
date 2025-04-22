@@ -2,7 +2,6 @@ package com.meli.animals.services;
 
 import com.meli.animals.entities.Animal;
 import com.meli.animals.repositories.AnimalRepository;
-import com.meli.animals.services.AnimalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +47,10 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public Optional<Animal> findByNome(String nome) {
         return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByNome(String nome) {
+        return repository.findByNome(nome).isPresent();
     }
 }

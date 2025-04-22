@@ -20,4 +20,6 @@ public interface AnimalService {
     void deletarAnimal(Long id);
 
     Optional<Animal> findByNome(String nome);
+
+    boolean existsByNome(String nome);
 }
