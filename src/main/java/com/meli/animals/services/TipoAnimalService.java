@@ -11,6 +11,8 @@ public interface TipoAnimalService {
 
     List<TipoAnimal> encontrarTodosTipos();
 
+    List<TipoAnimal> findByRaca(String raca);
+
     Optional<TipoAnimal> encontrarPorId(Long id);
 
     void delete(Long id);

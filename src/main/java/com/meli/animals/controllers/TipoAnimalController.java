@@ -31,6 +31,15 @@ public class TipoAnimalController {
         return tipo.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/TipoAnimal/raca/{raca}")
+    public ResponseEntity<List<TipoAnimal>> findByRaca(@PathVariable String raca) {
+        List<TipoAnimal> tipo = service.findByRaca(raca);
+        if (tipo.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(tipo);
+    }
+
     @PostMapping("/TipoAnimal")
     public ResponseEntity<TipoAnimal> save(@RequestBody TipoAnimal tipoAnimal) {
         return ResponseEntity.status(201).body(service.save(tipoAnimal));

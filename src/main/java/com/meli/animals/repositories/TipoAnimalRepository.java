@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TipoAnimalRepository extends JpaRepository<TipoAnimal, Long> {
+    List<TipoAnimal> findByRaca(String raca);
 }

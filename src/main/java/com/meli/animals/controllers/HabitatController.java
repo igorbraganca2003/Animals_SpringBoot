@@ -31,6 +31,15 @@ public class HabitatController {
         return habitat.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/habitat/nomeHabitat/{nomeHabitat}")
+    public ResponseEntity<List<Habitat>> encontrarPorNomeHabitat(@PathVariable String nomeHabitat) {
+        List<Habitat> habitats = service.findByNomeHabitat(nomeHabitat);
+        if (habitats.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(habitats);
+    }
+
     @PostMapping("/habitat")
     public ResponseEntity<Habitat> salvarHabitat(@RequestBody Habitat habitat) {
         return ResponseEntity.status(201).body(service.save(habitat));

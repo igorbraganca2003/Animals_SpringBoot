@@ -26,6 +26,11 @@ public class TipoAnimalServiceImpl implements TipoAnimalService {
     }
 
     @Override
+    public List<TipoAnimal> findByRaca(String raca) {
+        return tipoAnimalRepository.findByRaca(raca);
+    }
+
+    @Override
     public Optional<TipoAnimal> encontrarPorId(Long id) {
         return tipoAnimalRepository.findById(id);
     }

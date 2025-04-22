@@ -26,6 +26,11 @@ public class HabitatServiceImpl implements HabitatServices {
     }
 
     @Override
+    public List<Habitat> findByNomeHabitat(String nomeHabitat) {
+        return habitatRepository.findByNomeHabitat(nomeHabitat);
+    }
+
+    @Override
     public Optional<Habitat> encontrarPorId(Long id) {
         return habitatRepository.findById(id);
     }
