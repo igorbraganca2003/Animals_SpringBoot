@@ -1,15 +1,22 @@
 package com.meli.animals.controllers;
 
+import ch.qos.logback.classic.Logger;
 import com.meli.animals.entities.Animal;
 import com.meli.animals.entities.Habitat;
 import com.meli.animals.entities.TipoAnimal;
+import com.meli.animals.repositories.AnimalRepository;
 import com.meli.animals.services.AnimalService;
 import com.meli.animals.repositories.TipoAnimalRepository;
 import com.meli.animals.repositories.HabitatRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.http.HttpStatus;
+import com.meli.animals.Exceptions.AnimalNomeDuplicadoException;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +29,9 @@ public class AnimalController {
     private final AnimalService service;
     private final TipoAnimalRepository tipoAnimalRepository;
     private final HabitatRepository habitatRepository;
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(AnimalController.class);
+    private final AnimalRepository animalRepository;
+
 
     @GetMapping
     public ResponseEntity<List<Animal>> encontrarTodos() {
@@ -58,29 +68,36 @@ public class AnimalController {
 
     @PostMapping
     public ResponseEntity<Animal> salvarAnimal(@RequestBody Animal animal) {
-        if (animal.getTipoAnimal() != null) {
-            Long tipoAnimalId = animal.getTipoAnimal().getId();
-            Optional<TipoAnimal> tipoAnimalExistente = tipoAnimalRepository.findById(tipoAnimalId);
-            tipoAnimalExistente.ifPresentOrElse(animal::setTipoAnimal, () -> {
-                throw new EntityNotFoundException("TipoAnimal with ID " + tipoAnimalId + " not found.");
-            });
-        }
+        logger.info("Tentando salvar o animal: {}", animal);
 
-        if (animal.getHabitat() != null) {
-            Long habitatId = animal.getHabitat().getId();
-            Optional<Habitat> habitatExistente = habitatRepository.findById(habitatId);
-            habitatExistente.ifPresentOrElse(animal::setHabitat, () -> {
-                throw new EntityNotFoundException("Habitat with ID " + habitatId + " not found.");
-            });
+        String nome = animal.getNome();
+        if (nome != null && !nome.trim().isEmpty()) {
+            Optional<Animal> animalExistente = animalRepository.findByNome(nome);
+            if (animalExistente.isPresent()) {
+                logger.warn("Animal com o nome '{}' já existe.", nome);
+                throw new AnimalNomeDuplicadoException(nome);
+            }
         }
 
         Animal animalSalvo = service.save(animal);
-        return ResponseEntity.status(201).body(animalSalvo);
+        logger.info("Animal salvo com sucesso: {}", animalSalvo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(animalSalvo);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAnimal(@PathVariable Long id) {
         service.deletarAnimal(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(AnimalNomeDuplicadoException.class)
+    public ResponseEntity<String> handleAnimalNomeDuplicadoException(AnimalNomeDuplicadoException e) {
+        logger.warn(e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 }

@@ -11,7 +11,7 @@ public interface HabitatServices {
 
     List<Habitat> encontrarTodosHabitats();
 
-    List<Habitat> findByNomeHabitat(String nomeHabitat);
+    Optional<Habitat> findByNomeHabitat(String nomeHabitat);
 
     Optional<Habitat> encontrarPorId(Long id);
 

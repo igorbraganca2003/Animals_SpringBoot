@@ -2,7 +2,6 @@ package com.meli.animals.services;
 
 import com.meli.animals.entities.Habitat;
 import com.meli.animals.repositories.HabitatRepository;
-import com.meli.animals.services.HabitatServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class HabitatServiceImpl implements HabitatServices {
     }
 
     @Override
-    public List<Habitat> findByNomeHabitat(String nomeHabitat) {
+    public Optional<Habitat> findByNomeHabitat(String nomeHabitat) {
         return habitatRepository.findByNomeHabitat(nomeHabitat);
     }
 

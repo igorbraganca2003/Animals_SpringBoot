@@ -44,4 +44,9 @@ public class AnimalServiceImpl implements AnimalService {
     public void deletarAnimal(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public Optional<Animal> findByNome(String nome) {
+        return Optional.empty();
+    }
 }
